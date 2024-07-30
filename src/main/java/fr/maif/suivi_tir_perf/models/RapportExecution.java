@@ -1,21 +1,13 @@
 package fr.maif.suivi_tir_perf.models;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 public class RapportExecution {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
     private Integer callsNumber;
@@ -29,4 +21,6 @@ public class RapportExecution {
     @ManyToOne
     @JoinColumn(name = "tirPerf_id")
     private TirPerf tirPerf;
+
+    public RapportExecution() {}
 }

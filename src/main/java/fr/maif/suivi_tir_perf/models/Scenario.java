@@ -2,18 +2,12 @@ package fr.maif.suivi_tir_perf.models;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 public class Scenario {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
     private String description;
@@ -33,4 +27,6 @@ public class Scenario {
             }
     )
     private List<Fonction> fonctions;
+
+    public Scenario() {}
 }
