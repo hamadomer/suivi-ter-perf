@@ -34,4 +34,44 @@ public class Applicatif {
     private List<PanSI> panSI;
 
     public Applicatif() {}
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public Fonction getFonction() {
+        return fonction;
+    }
+
+    public void setFonction(Fonction fonction) {
+        this.fonction = fonction;
+    }
+
+    public List<PanSI> getPanSI() {
+        return panSI;
+    }
+
+    public void setPanSI(List<PanSI> panSI) {
+        this.panSI = panSI;
+    }
 }
