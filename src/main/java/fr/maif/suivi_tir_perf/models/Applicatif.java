@@ -15,25 +15,30 @@ public class Applicatif {
 
     private String name;
 
-    private String version;
-
     @ManyToOne
     @JoinColumn(name = "fonction_id")
     private Fonction fonction;
 
-    @ManyToMany
-    @JoinTable(
-        name = "Applicatif_PanSI",
-        joinColumns = {
-                @JoinColumn(name = "applicatif_id")
-        },
-            inverseJoinColumns = {
-                @JoinColumn(name = "pan_si")
-            }
-    )
-    private List<PanSI> panSI;
+//    @ManyToMany
+//    @JoinTable(
+//        name = "Applicatif_PanSI",
+//        joinColumns = {
+//                @JoinColumn(name = "applicatif_id")
+//        },
+//            inverseJoinColumns = {
+//                @JoinColumn(name = "pan_si")
+//            }
+//    )
+//    private List<PanSI> panSI;
 
     public Applicatif() {}
+
+    // The least amount of information an applicatif needs to have to be saved
+    public Applicatif(String name) {
+        this.name = name;
+    }
+
+
 
     public Integer getId() {
         return id;
@@ -51,13 +56,6 @@ public class Applicatif {
         this.name = name;
     }
 
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
 
     public Fonction getFonction() {
         return fonction;
@@ -67,11 +65,4 @@ public class Applicatif {
         this.fonction = fonction;
     }
 
-    public List<PanSI> getPanSI() {
-        return panSI;
-    }
-
-    public void setPanSI(List<PanSI> panSI) {
-        this.panSI = panSI;
-    }
 }

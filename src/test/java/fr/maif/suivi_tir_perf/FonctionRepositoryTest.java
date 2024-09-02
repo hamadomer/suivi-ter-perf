@@ -1,8 +1,7 @@
 package fr.maif.suivi_tir_perf;
 
 import fr.maif.suivi_tir_perf.models.Fonction;
-import fr.maif.suivi_tir_perf.repositories.FonctionRepositoryImpl;
-import jakarta.persistence.EntityManager;
+import fr.maif.suivi_tir_perf.repositories.Impl.FonctionRepositoryImpl;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.AfterEach;
