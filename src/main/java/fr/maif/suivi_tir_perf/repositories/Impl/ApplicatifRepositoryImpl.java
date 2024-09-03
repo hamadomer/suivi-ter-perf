@@ -54,9 +54,10 @@ public class ApplicatifRepositoryImpl implements ApplicatifRepository {
         return null;
     }
 
+
     @Override
-    public void deleteById(int id) {
-        entityManager.createQuery("Delete FROM Applicatif  a WHERE a.id = :id").executeUpdate();
+    public  void deleteApplecatif(Applicatif applicatifToDelete) {
+      entityManager.remove(applicatifToDelete);
     }
 
 }

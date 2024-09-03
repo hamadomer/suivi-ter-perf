@@ -30,20 +30,6 @@ public class ApplicatifRepositoryTest {
         applicatifRepository = new ApplicatifRepositoryImpl(entityManagerFactory.createEntityManager());
     }
 
-    /**
-     * Tears down the entity manager factory after each test.
-     *
-     * Closes the entity manager factory to release any system resources.
-     *
-     * @throws Exception	if an error occurs while closing the entity manager factory
-     */
-//    @AfterEach
-//    protected void tearDown() throws Exception {
-//        if (entityManagerFactory != null) {
-//            entityManagerFactory.close();
-//        }
-//    }
-
 
     /**
      * Tests the creation of an Applicatif entity.
@@ -86,5 +72,37 @@ public class ApplicatifRepositoryTest {
         assertTrue(applicatifs.size() >= 2);
         Applicatif retrievedApplicatif = applicatifs.iterator().next();
         Assertions.assertEquals(applicatif1.getName(), retrievedApplicatif.getName()); // Check if the retrieved instance matches the created instance
+    }
+
+
+    @Test
+    public void testUpdateApplicatifName() {
+        // Given
+        Applicatif applicatif = new Applicatif("Test Applicatif");
+        Applicatif savedApplicatif = applicatifRepository.createApplicatif(applicatif);
+        String newName = "Updated Applicatif Name";
+
+        // When
+        applicatif.setName(newName);
+        applicatifRepository.updateApplicatif(applicatif, savedApplicatif.getId());
+
+        // Then
+        Applicatif updatedApplicatif = applicatifRepository.getApplicatifById(applicatif.getId());
+        assertNotNull(updatedApplicatif);
+        assertEquals(newName, updatedApplicatif.getName());
+    }
+
+    @Test
+    public void testDeleteApplicatif() {
+        // Given
+        Applicatif applicatif = new Applicatif("isDeleted");
+
+        // When
+        applicatifRepository.createApplicatif(applicatif);
+        applicatifRepository.deleteApplecatif(applicatif);
+
+        // Then
+        assertNull(applicatifRepository.getApplicatifById(applicatif.getId()));
+
     }
 }

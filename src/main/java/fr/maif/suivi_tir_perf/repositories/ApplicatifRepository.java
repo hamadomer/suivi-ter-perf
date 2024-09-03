@@ -11,5 +11,5 @@ public interface ApplicatifRepository {
     Applicatif createApplicatif(Applicatif applicatif);
     Applicatif updateApplicatif(Applicatif applicatif, int id);
     
-    void deleteById(int id);
+    void deleteApplecatif(Applicatif applicatif);
 }

@@ -47,7 +47,7 @@ public class FonctionRepositoryTest {
 
     @Test
     public void testDeleteFonction() {
-        Fonction fonction = new Fonction("Test Fonction");
+        Fonction fonction = new Fonction("Delete");
         fonctionRepository.createFonction(fonction);
         assertNotNull(fonction.getId());
         fonctionRepository.deleteFonction(fonction);
