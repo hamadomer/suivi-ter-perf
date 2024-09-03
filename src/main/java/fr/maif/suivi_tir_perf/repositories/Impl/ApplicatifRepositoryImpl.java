@@ -7,9 +7,12 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Transactional
 public class ApplicatifRepositoryImpl implements ApplicatifRepository {
+
+    Logger logger = Logger.getLogger(ApplicatifRepositoryImpl.class.getName());
 
     private final EntityManager entityManager;
 
@@ -38,6 +41,7 @@ public class ApplicatifRepositoryImpl implements ApplicatifRepository {
             entityManager.getTransaction().begin();
             entityManager.persist(applicatif);
             entityManager.getTransaction().commit();
+            logger.info("applicatif created" + applicatif.getId());
         }
         return applicatif;
     }
@@ -56,8 +60,14 @@ public class ApplicatifRepositoryImpl implements ApplicatifRepository {
 
 
     @Override
-    public  void deleteApplecatif(Applicatif applicatifToDelete) {
-      entityManager.remove(applicatifToDelete);
+    public void deleteApplecatif(Applicatif applicatifToDelete) {
+        entityManager.getTransaction().begin();
+        Applicatif managedApplicatif = entityManager.find(Applicatif.class, applicatifToDelete.getId());
+        if (managedApplicatif != null) {
+            entityManager.remove(managedApplicatif);
+            logger.info("applicatif deleted" + applicatifToDelete.getId());
+        }
+        entityManager.getTransaction().commit();
     }
 
 }

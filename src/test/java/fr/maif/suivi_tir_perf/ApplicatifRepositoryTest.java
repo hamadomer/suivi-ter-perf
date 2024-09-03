@@ -95,14 +95,18 @@ public class ApplicatifRepositoryTest {
     @Test
     public void testDeleteApplicatif() {
         // Given
-        Applicatif applicatif = new Applicatif("isDeleted");
+        Applicatif applicatif = new Applicatif("isDeleted5444");
 
         // When
-        applicatifRepository.createApplicatif(applicatif);
-        applicatifRepository.deleteApplecatif(applicatif);
+        Applicatif savedApplicatif = applicatifRepository.createApplicatif(applicatif);
 
+        applicatifRepository.deleteApplecatif(savedApplicatif);
+
+        Integer value = applicatif.getId();
+        System.out.println(value);
         // Then
-        assertNull(applicatifRepository.getApplicatifById(applicatif.getId()));
+        assertNull(applicatifRepository.getApplicatifById(savedApplicatif.getId()));
+
 
     }
 }
