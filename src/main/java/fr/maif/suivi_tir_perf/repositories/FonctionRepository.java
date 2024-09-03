@@ -9,6 +9,6 @@ public interface FonctionRepository {
     Fonction getFonctionByName(String name);
     List<Fonction> getAllFonctions();
     Fonction createFonction(Fonction fonction);
-    Fonction updateFonction(Fonction fonction, int id);
+    Fonction updateFonction(Fonction fonction);
     void deleteFonction(Fonction fonction);
 }

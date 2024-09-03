@@ -4,6 +4,7 @@ package fr.maif.suivi_tir_perf.models;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -25,8 +26,6 @@ public class Applicatif {
     public Applicatif(String name) {
         this.name = name;
     }
-
-
 
     public Integer getId() {
         return id;
@@ -51,6 +50,23 @@ public class Applicatif {
 
     public void setFonction(Fonction fonction) {
         this.fonction = fonction;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Applicatif other = (Applicatif) obj;
+        return Objects.equals(id, other.id);
     }
 
 }

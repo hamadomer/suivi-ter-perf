@@ -9,7 +9,7 @@ public interface ApplicatifRepository {
     Applicatif getApplicatifByName(String name);
     List<Applicatif> getAllApplicatifs();
     Applicatif createApplicatif(Applicatif applicatif);
-    Applicatif updateApplicatif(Applicatif applicatif, int id);
+    Applicatif updateApplicatif(Applicatif applicatif);
     
     void deleteApplecatif(Applicatif applicatif);
 }

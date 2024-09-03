@@ -40,8 +40,8 @@ public class FonctionRepositoryImpl implements FonctionRepository {
     }
 
     @Override
-    public Fonction updateFonction(Fonction fonction, int id) {
-        Fonction fonctionToUpdate = getFonctionById(id);
+    public Fonction updateFonction(Fonction fonction) {
+        Fonction fonctionToUpdate = getFonctionById(fonction.getId());
         if(fonctionToUpdate != null) {
             fonctionToUpdate.setName(fonction.getName());
             fonction.setScenario(fonction.getScenario());

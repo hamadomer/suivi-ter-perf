@@ -44,9 +44,7 @@ public class ApplicatifRepositoryTest {
        Applicatif applicatif = new Applicatif("Test Applicatif");
 
        // When
-       applicatifRepository.createApplicatif(applicatif);
-
-       Integer test = 0;
+       applicatif = applicatifRepository.createApplicatif(applicatif);
 
        // Then
        assertNotNull(applicatif.getId());
@@ -59,19 +57,21 @@ public class ApplicatifRepositoryTest {
         // Given
         Applicatif applicatif1 = new Applicatif("Test Applicatif");
         Applicatif applicatif2 = new Applicatif("Test Applicatif 2");
-        applicatifRepository.createApplicatif(applicatif1);
-        applicatifRepository.createApplicatif(applicatif2);
-
-
+        applicatif1 = applicatifRepository.createApplicatif(applicatif1);
+        applicatif2 = applicatifRepository.createApplicatif(applicatif2);
+        
+        List<Applicatif> applicatifsExpected = List.of(applicatif1, applicatif2);
 
         // When
         List<Applicatif> applicatifs = applicatifRepository.getAllApplicatifs();
 
         // Then
-        assertNotNull(applicatifs);
-        assertTrue(applicatifs.size() >= 2);
-        Applicatif retrievedApplicatif = applicatifs.iterator().next();
-        Assertions.assertEquals(applicatif1.getName(), retrievedApplicatif.getName()); // Check if the retrieved instance matches the created instance
+        assertEquals(2, applicatifs.size());
+        
+        applicatifs.forEach(app->{
+            Assertions.assertTrue(applicatifsExpected.contains(app));
+        });
+        
     }
 
 
@@ -79,16 +79,17 @@ public class ApplicatifRepositoryTest {
     public void testUpdateApplicatifName() {
         // Given
         Applicatif applicatif = new Applicatif("Test Applicatif");
-        Applicatif savedApplicatif = applicatifRepository.createApplicatif(applicatif);
+        applicatif = applicatifRepository.createApplicatif(applicatif);
         String newName = "Updated Applicatif Name";
 
         // When
         applicatif.setName(newName);
-        applicatifRepository.updateApplicatif(applicatif, savedApplicatif.getId());
+        Applicatif updatedApplicatif = applicatifRepository.updateApplicatif(applicatif);
 
         // Then
-        Applicatif updatedApplicatif = applicatifRepository.getApplicatifById(applicatif.getId());
-        assertNotNull(updatedApplicatif);
+        assertEquals(newName, updatedApplicatif.getName());
+        
+        updatedApplicatif = applicatifRepository.getApplicatifById(applicatif.getId());
         assertEquals(newName, updatedApplicatif.getName());
     }
 
@@ -96,17 +97,12 @@ public class ApplicatifRepositoryTest {
     public void testDeleteApplicatif() {
         // Given
         Applicatif applicatif = new Applicatif("isDeleted5444");
-
-        // When
         Applicatif savedApplicatif = applicatifRepository.createApplicatif(applicatif);
 
+        // When
         applicatifRepository.deleteApplecatif(savedApplicatif);
 
-        Integer value = applicatif.getId();
-        System.out.println(value);
         // Then
         assertNull(applicatifRepository.getApplicatifById(savedApplicatif.getId()));
-
-
     }
 }

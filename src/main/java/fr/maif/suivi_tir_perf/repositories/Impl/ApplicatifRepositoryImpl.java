@@ -47,8 +47,8 @@ public class ApplicatifRepositoryImpl implements ApplicatifRepository {
     }
 
     @Override
-    public Applicatif updateApplicatif(Applicatif applicatif, int id) {
-        Applicatif applicatifToUpdate = getApplicatifById(id);
+    public Applicatif updateApplicatif(Applicatif applicatif) {
+        Applicatif applicatifToUpdate = getApplicatifById(applicatif.getId());
         if (applicatifToUpdate != null) {
             applicatifToUpdate.setName(applicatif.getName());
             applicatifToUpdate.setFonction(applicatif.getFonction());

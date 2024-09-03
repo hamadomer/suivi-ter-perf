@@ -31,25 +31,23 @@ public class FonctionRepositoryTest {
     @Test
     public void testCreateFonction() {
         Fonction fonction = new Fonction("Test Fonction");
-        fonctionRepository.createFonction(fonction);
+        fonction = fonctionRepository.createFonction(fonction);
         assertNotNull(fonction.getId());
     }
 
     @Test
     public void testUpdateFonction() {
         Fonction fonction = new Fonction("Test Fonction");
-        fonctionRepository.createFonction(fonction);
-        assertNotNull(fonction.getId());
+        fonction = fonctionRepository.createFonction(fonction);
         fonction.setName("Updated Fonction");
-        fonctionRepository.updateFonction(fonction, fonction.getId());
+        fonctionRepository.updateFonction(fonction);
         assertEquals("Updated Fonction", fonction.getName());
     }
 
     @Test
     public void testDeleteFonction() {
         Fonction fonction = new Fonction("Delete");
-        fonctionRepository.createFonction(fonction);
-        assertNotNull(fonction.getId());
+        fonction = fonctionRepository.createFonction(fonction);
         fonctionRepository.deleteFonction(fonction);
         assertNull(fonctionRepository.getFonctionById(fonction.getId()));
     }
