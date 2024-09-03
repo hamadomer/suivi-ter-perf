@@ -19,18 +19,6 @@ public class Applicatif {
     @JoinColumn(name = "fonction_id")
     private Fonction fonction;
 
-//    @ManyToMany
-//    @JoinTable(
-//        name = "Applicatif_PanSI",
-//        joinColumns = {
-//                @JoinColumn(name = "applicatif_id")
-//        },
-//            inverseJoinColumns = {
-//                @JoinColumn(name = "pan_si")
-//            }
-//    )
-//    private List<PanSI> panSI;
-
     public Applicatif() {}
 
     // The least amount of information an applicatif needs to have to be saved
