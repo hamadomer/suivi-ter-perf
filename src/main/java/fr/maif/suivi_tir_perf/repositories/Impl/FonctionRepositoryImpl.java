@@ -1,13 +1,14 @@
-package fr.maif.suivi_tir_perf.repositories;
+package fr.maif.suivi_tir_perf.repositories.Impl;
 
 import fr.maif.suivi_tir_perf.models.Fonction;
+import fr.maif.suivi_tir_perf.repositories.FonctionRepository;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;
 
-public class FonctionRepositoryImpl implements FonctionRepository{
+public class FonctionRepositoryImpl implements FonctionRepository {
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     public FonctionRepositoryImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -31,9 +32,9 @@ public class FonctionRepositoryImpl implements FonctionRepository{
     @Override
     public Fonction createFonction(Fonction fonction) {
         if(fonction.getId() == null) { // check if it has id, means already in DB
+            entityManager.getTransaction().begin();
             entityManager.persist(fonction);
-        } else {
-            entityManager.merge(fonction); // Update the DB with the new values
+            entityManager.getTransaction().commit();
         }
         return fonction;
     }

@@ -5,7 +5,8 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-public class Scenario {
+public class
+Scenario {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;

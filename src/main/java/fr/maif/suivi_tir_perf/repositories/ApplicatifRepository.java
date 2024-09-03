@@ -1,7 +1,6 @@
 package fr.maif.suivi_tir_perf.repositories;
 
 import fr.maif.suivi_tir_perf.models.Applicatif;
-import fr.maif.suivi_tir_perf.models.Fonction;
 
 import java.util.List;
 
@@ -11,6 +10,6 @@ public interface ApplicatifRepository {
     List<Applicatif> getAllApplicatifs();
     Applicatif createApplicatif(Applicatif applicatif);
     Applicatif updateApplicatif(Applicatif applicatif, int id);
-
-    void deleteApplicatif(int id);
+    
+    void deleteById(int id);
 }
