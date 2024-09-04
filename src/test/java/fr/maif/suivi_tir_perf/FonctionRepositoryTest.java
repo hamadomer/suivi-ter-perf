@@ -26,6 +26,9 @@ public class FonctionRepositoryTest {
     @AfterEach
     protected void tearDown() throws Exception {
         fonctionRepository.PurgeFonctions();
+        if(entityManagerFactory != null) {
+            entityManagerFactory.close();
+        }
     }
 
     @Test

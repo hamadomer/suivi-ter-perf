@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ApplicatifRepositoryTest {
 
    private ApplicatifRepositoryImpl applicatifRepository;
+   private EntityManagerFactory entityManagerFactory;
 
     /**
      * Initializes the test environment by creating an EntityManagerFactory and an ApplicatifRepository instance.
@@ -33,6 +34,9 @@ public class ApplicatifRepositoryTest {
     @AfterEach
     protected void tearDown() throws Exception {
         applicatifRepository.PurgeApplicatifs();
+        if(entityManagerFactory != null) {
+            entityManagerFactory.close();
+        }
     }
 
 

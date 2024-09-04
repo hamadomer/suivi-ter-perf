@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ContextExecutionRepositoryTest {
 
     private  ContextExecutionRepository contextExecutionRepository;
+    private EntityManagerFactory entityManagerFactory;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -27,6 +28,9 @@ public class ContextExecutionRepositoryTest {
     @AfterEach
     public void tearDown() throws Exception {
         contextExecutionRepository.PurgeContextExecutions();
+        if(entityManagerFactory != null) {
+            entityManagerFactory.close();
+        }
     }
 
     @Test
