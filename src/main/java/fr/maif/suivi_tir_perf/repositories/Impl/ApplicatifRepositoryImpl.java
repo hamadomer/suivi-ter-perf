@@ -1,12 +1,14 @@
 package fr.maif.suivi_tir_perf.repositories.Impl;
 
 import fr.maif.suivi_tir_perf.models.Applicatif;
+import fr.maif.suivi_tir_perf.models.TirPerf;
 import fr.maif.suivi_tir_perf.repositories.ApplicatifRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -65,6 +67,16 @@ public class ApplicatifRepositoryImpl implements ApplicatifRepository {
         return null;
     }
 
+     @Override
+public List<TirPerf> getAllTirPerfs(Applicatif applicatif) {
+    try {
+        Query query = entityManager.createNativeQuery("SELECT t.* FROM tirperf t JOIN scenario s ON t.scenario_id = s.id WHERE s.applicatif_id = ?", TirPerf.class);
+        query.setParameter(1, applicatif.getId());
+        return (List<TirPerf>) query.getResultList();
+    } catch (NoResultException e) {
+        return Collections.emptyList();
+    }
+}
 
     @Override
     public void deleteApplecatif(Applicatif applicatifToDelete) {
@@ -76,6 +88,8 @@ public class ApplicatifRepositoryImpl implements ApplicatifRepository {
         }
         entityManager.getTransaction().commit();
     }
+
+
 
     @Override
     public void PurgeApplicatifs() {

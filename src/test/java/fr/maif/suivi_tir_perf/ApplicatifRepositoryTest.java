@@ -2,7 +2,11 @@ package fr.maif.suivi_tir_perf;
 
 
 import fr.maif.suivi_tir_perf.models.Applicatif;
+import fr.maif.suivi_tir_perf.models.Scenario;
+import fr.maif.suivi_tir_perf.models.TirPerf;
 import fr.maif.suivi_tir_perf.repositories.Impl.ApplicatifRepositoryImpl;
+import fr.maif.suivi_tir_perf.repositories.Impl.ScenarioRepositoryImpl;
+import fr.maif.suivi_tir_perf.repositories.Impl.TirPerfRepositoryImpl;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.transaction.Transactional;
@@ -18,6 +22,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ApplicatifRepositoryTest {
 
    private ApplicatifRepositoryImpl applicatifRepository;
+   private ScenarioRepositoryImpl scenarioRepository;
+   private TirPerfRepositoryImpl tirPerfRepository;
    private EntityManagerFactory entityManagerFactory;
 
     /**
@@ -29,11 +35,15 @@ public class ApplicatifRepositoryTest {
     protected void setUp() throws Exception {
         entityManagerFactory = Persistence.createEntityManagerFactory("tirperf");
         applicatifRepository = new ApplicatifRepositoryImpl(entityManagerFactory.createEntityManager());
+        scenarioRepository = new ScenarioRepositoryImpl(entityManagerFactory.createEntityManager());
+        tirPerfRepository = new TirPerfRepositoryImpl(entityManagerFactory.createEntityManager());
     }
 
     @AfterEach
     protected void tearDown() throws Exception {
         applicatifRepository.PurgeApplicatifs();
+        scenarioRepository.PurgeScenarios();
+        tirPerfRepository.PurgeTirperfs();
         if(entityManagerFactory.isOpen()) {
             entityManagerFactory.close();
         }
@@ -128,4 +138,38 @@ public class ApplicatifRepositoryTest {
         // Then
         assertNull(applicatifRepository.getApplicatifById(savedApplicatif.getId()));
     }
+
+    @Test
+    public void testGetAllAssociatedTirPerfs() {
+    // Given
+
+    Applicatif applicatif1 = new Applicatif("Test Applicatif1");
+    Scenario scenario1 = new Scenario();
+    scenario1.setApplicatif(applicatif1);
+    TirPerf tirPerf = new TirPerf();
+    tirPerf.setScenario(scenario1);
+
+    applicatifRepository.createApplicatif(applicatif1);
+    scenarioRepository.create(scenario1);
+    tirPerfRepository.create(tirPerf);
+
+    // When
+    List<TirPerf> tirPerfsSaved = applicatifRepository.getAllTirPerfs(applicatif1);
+
+
+    // Then
+
+    boolean found = false;
+    for (TirPerf savedTirPerf : tirPerfsSaved) {
+        if (savedTirPerf.getScenario().getId().equals(scenario1.getId())) {
+            found = !found;
+            assertEquals(tirPerf.getScenario().getId(), savedTirPerf.getScenario().getId());
+            assertEquals(tirPerf.getScenario().getApplicatif().getId(), savedTirPerf.getScenario().getApplicatif().getId());
+            break;
+        }
+    }
+
+    assertTrue(found);
+    }
+
 }
