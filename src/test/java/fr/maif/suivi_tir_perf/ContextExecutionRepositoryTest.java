@@ -21,14 +21,14 @@ public class ContextExecutionRepositoryTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("tirperf");
+        entityManagerFactory = Persistence.createEntityManagerFactory("tirperf");
         contextExecutionRepository = new ContextExecutionRepositoryImpl(entityManagerFactory.createEntityManager());
     }
 
     @AfterEach
     public void tearDown() throws Exception {
         contextExecutionRepository.PurgeContextExecutions();
-        if(entityManagerFactory != null) {
+        if(entityManagerFactory.isOpen()) {
             entityManagerFactory.close();
         }
     }

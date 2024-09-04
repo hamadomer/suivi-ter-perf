@@ -27,7 +27,7 @@ public class ScenarioRepositoryTest {
     @AfterEach
     protected void tearDown() throws Exception {
         scenarioRepository.PurgeScenarios();
-        if (entityManagerFactory != null) {
+        if (entityManagerFactory.isOpen()) {
             entityManagerFactory.close();
         }
     }

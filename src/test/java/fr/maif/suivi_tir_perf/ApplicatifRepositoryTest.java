@@ -27,14 +27,14 @@ public class ApplicatifRepositoryTest {
      */
     @BeforeEach
     protected void setUp() throws Exception {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("tirperf");
+        entityManagerFactory = Persistence.createEntityManagerFactory("tirperf");
         applicatifRepository = new ApplicatifRepositoryImpl(entityManagerFactory.createEntityManager());
     }
 
     @AfterEach
     protected void tearDown() throws Exception {
         applicatifRepository.PurgeApplicatifs();
-        if(entityManagerFactory != null) {
+        if(entityManagerFactory.isOpen()) {
             entityManagerFactory.close();
         }
     }
