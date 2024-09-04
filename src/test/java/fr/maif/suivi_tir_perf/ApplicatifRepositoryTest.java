@@ -30,6 +30,11 @@ public class ApplicatifRepositoryTest {
         applicatifRepository = new ApplicatifRepositoryImpl(entityManagerFactory.createEntityManager());
     }
 
+    @AfterEach
+    protected void tearDown() throws Exception {
+        applicatifRepository.PurgeApplicatifs();
+    }
+
 
     /**
      * Tests the creation of an Applicatif entity.
@@ -55,8 +60,8 @@ public class ApplicatifRepositoryTest {
     @Test
     public void testGetAllApplicatifs() {
         // Given
-        Applicatif applicatif1 = new Applicatif("Test Applicatif");
-        Applicatif applicatif2 = new Applicatif("Test Applicatif 2");
+        Applicatif applicatif1 = new Applicatif("Test Applicatif1");
+        Applicatif applicatif2 = new Applicatif("Test Applicatif2");
         applicatif1 = applicatifRepository.createApplicatif(applicatif1);
         applicatif2 = applicatifRepository.createApplicatif(applicatif2);
         
@@ -72,6 +77,20 @@ public class ApplicatifRepositoryTest {
             Assertions.assertTrue(applicatifsExpected.contains(app));
         });
         
+    }
+
+    @Test
+    public void testGetApplicatifByname() {
+        // Given
+        Applicatif applicatif = new Applicatif("Find me if you can");
+        applicatifRepository.createApplicatif(applicatif);
+
+        // When
+        Applicatif foundApplicatif = applicatifRepository.getApplicatifByName(applicatif.getName());
+
+        // Then
+        Assertions.assertNotNull(foundApplicatif);
+        assertEquals("Find me if you can", foundApplicatif.getName());
     }
 
 

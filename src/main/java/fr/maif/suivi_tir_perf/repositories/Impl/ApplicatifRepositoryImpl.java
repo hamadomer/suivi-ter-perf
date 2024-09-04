@@ -3,6 +3,7 @@ package fr.maif.suivi_tir_perf.repositories.Impl;
 import fr.maif.suivi_tir_perf.models.Applicatif;
 import fr.maif.suivi_tir_perf.repositories.ApplicatifRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
@@ -27,7 +28,13 @@ public class ApplicatifRepositoryImpl implements ApplicatifRepository {
 
     @Override
     public Applicatif getApplicatifByName(String name) {
-        return entityManager.find(Applicatif.class, name);
+        try {
+            return entityManager.createQuery("SELECT a FROM Applicatif a WHERE a.name = :name", Applicatif.class)
+                                .setParameter("name", name)
+                                .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Override
@@ -69,5 +76,13 @@ public class ApplicatifRepositoryImpl implements ApplicatifRepository {
         }
         entityManager.getTransaction().commit();
     }
+
+    @Override
+    public void PurgeApplicatifs() {
+        entityManager.getTransaction().begin();
+        entityManager.createNativeQuery("TRUNCATE TABLE APPLICATIF CASCADE").executeUpdate();
+        entityManager.getTransaction().commit();
+    }
+
 
 }

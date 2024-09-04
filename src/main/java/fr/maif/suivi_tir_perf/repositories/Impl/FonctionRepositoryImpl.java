@@ -3,6 +3,7 @@ package fr.maif.suivi_tir_perf.repositories.Impl;
 import fr.maif.suivi_tir_perf.models.Fonction;
 import fr.maif.suivi_tir_perf.repositories.FonctionRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 
 import java.util.List;
 
@@ -21,8 +22,14 @@ public class FonctionRepositoryImpl implements FonctionRepository {
 
     @Override
     public Fonction getFonctionByName(String name) {
-        return entityManager.find(Fonction.class, name);
-    }
+        try {
+            return entityManager.createQuery("SELECT f FROM Fonction f WHERE f.name = :name", Fonction.class)
+                                .setParameter("name", name)
+                                .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+     }
 
     @Override
     public List<Fonction> getAllFonctions() {
@@ -54,6 +61,18 @@ public class FonctionRepositoryImpl implements FonctionRepository {
 
     @Override
     public void deleteFonction(Fonction fonction) {
-        entityManager.remove(fonction);
+        entityManager.getTransaction().begin();
+        Fonction managedFonction = entityManager.find(Fonction.class, fonction.getId());
+        if(managedFonction.getId() != null) {
+            entityManager.remove(managedFonction);
+        }
+        entityManager.getTransaction().commit();
     }
+
+    @Override
+    public void PurgeFonctions() {
+
+        entityManager.getTransaction().begin();
+        entityManager.createNativeQuery("TRUNCATE TABLE fonction CASCADE").executeUpdate();
+        entityManager.getTransaction().commit();    }
 }

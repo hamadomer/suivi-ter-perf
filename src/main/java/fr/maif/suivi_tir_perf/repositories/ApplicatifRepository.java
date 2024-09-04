@@ -12,4 +12,6 @@ public interface ApplicatifRepository {
     Applicatif updateApplicatif(Applicatif applicatif);
     
     void deleteApplecatif(Applicatif applicatif);
+
+    void PurgeApplicatifs();
 }

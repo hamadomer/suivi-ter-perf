@@ -11,4 +11,5 @@ public interface FonctionRepository {
     Fonction createFonction(Fonction fonction);
     Fonction updateFonction(Fonction fonction);
     void deleteFonction(Fonction fonction);
+    void PurgeFonctions();
 }
