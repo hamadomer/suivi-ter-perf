@@ -7,10 +7,13 @@ import fr.maif.suivi_tir_perf.repositories.Impl.AppPanSIRepositoryImpl;
 import fr.maif.suivi_tir_perf.repositories.Impl.ApplicatifRepositoryImpl;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.RollbackException;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.sql.SQLException;
 
 public class AppPanSITest {
 
@@ -65,13 +68,12 @@ public class AppPanSITest {
         appPanSI.setPanId(panSI);
         appPanSI.setVersion(version);
 
-        // When
+        // When, Then
 
 
-        AppPanSI savedAppPanSI = appPanSIRepository.create(appPanSI);
+        assertThrows(RollbackException.class, ()-> appPanSIRepository.create(appPanSI));
 
-        // Then
-        assertNull(savedAppPanSI);
+
 
     }
 
