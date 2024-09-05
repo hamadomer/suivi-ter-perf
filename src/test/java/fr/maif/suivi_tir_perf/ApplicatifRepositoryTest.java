@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,6 +26,7 @@ public class ApplicatifRepositoryTest {
    private ScenarioRepositoryImpl scenarioRepository;
    private TirPerfRepositoryImpl tirPerfRepository;
    private EntityManagerFactory entityManagerFactory;
+
 
     /**
      * Initializes the test environment by creating an EntityManagerFactory and an ApplicatifRepository instance.
@@ -144,8 +146,10 @@ public class ApplicatifRepositoryTest {
     // Given
 
     Applicatif applicatif1 = new Applicatif("Test Applicatif1");
+
     Scenario scenario1 = new Scenario();
     scenario1.setApplicatif(applicatif1);
+
     TirPerf tirPerf = new TirPerf();
     tirPerf.setScenario(scenario1);
 
@@ -165,11 +169,12 @@ public class ApplicatifRepositoryTest {
             found = !found;
             assertEquals(tirPerf.getScenario().getId(), savedTirPerf.getScenario().getId());
             assertEquals(tirPerf.getScenario().getApplicatif().getId(), savedTirPerf.getScenario().getApplicatif().getId());
-            break;
+
         }
     }
 
     assertTrue(found);
     }
+
 
 }
