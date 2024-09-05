@@ -143,38 +143,77 @@ public class ApplicatifRepositoryTest {
 
     @Test
     public void testGetAllAssociatedTirPerfs() {
-    // Given
+        // Given
 
-    Applicatif applicatif1 = new Applicatif("Test Applicatif1");
-
-    Scenario scenario1 = new Scenario();
-    scenario1.setApplicatif(applicatif1);
-
-    TirPerf tirPerf = new TirPerf();
-    tirPerf.setScenario(scenario1);
-
-    applicatifRepository.createApplicatif(applicatif1);
-    scenarioRepository.create(scenario1);
-    tirPerfRepository.create(tirPerf);
-
-    // When
-    List<TirPerf> tirPerfsSaved = applicatifRepository.getAllTirPerfs(applicatif1);
+        Applicatif applicatif1 = new Applicatif("Test Applicatif1");
+        Applicatif applicatif2 = new Applicatif("Test Applicatif2");
+        Applicatif savedApplicatif1 = applicatifRepository.createApplicatif(applicatif1);
+        Applicatif savedApplicatif2 = applicatifRepository.createApplicatif(applicatif2);
 
 
-    // Then
+        Scenario scenario1 = new Scenario();
+        scenario1.setApplicatif(savedApplicatif1);
+        Scenario scenario2 = new Scenario();
+        scenario2.setApplicatif(savedApplicatif2);
+        Scenario savedScevario1 = scenarioRepository.create(scenario1);
+        Scenario savedScevario2 = scenarioRepository.create(scenario2);
 
-    boolean found = false;
-    for (TirPerf savedTirPerf : tirPerfsSaved) {
-        if (savedTirPerf.getScenario().getId().equals(scenario1.getId())) {
-            found = !found;
-            assertEquals(tirPerf.getScenario().getId(), savedTirPerf.getScenario().getId());
-            assertEquals(tirPerf.getScenario().getApplicatif().getId(), savedTirPerf.getScenario().getApplicatif().getId());
+        TirPerf tirPerf1 = new TirPerf();
+        TirPerf tirPerf2 = new TirPerf();
+        tirPerf1.setScenario(savedScevario1);
+        tirPerf2.setScenario(savedScevario2);
+        TirPerf savedTirPerf1 = tirPerfRepository.create(tirPerf1);
+        TirPerf savedTirPerf2 = tirPerfRepository.create(tirPerf2);
 
-        }
+        List<TirPerf> localTirPerf = List.of(tirPerf1, tirPerf2);
+
+
+        // When
+        List<TirPerf> tirPerfsSaved = applicatifRepository.getAllTirPerfs(applicatif1);
+
+
+        // Then
+
+        assertTrue(tirPerfsSaved.size() == 1);
+        assertEquals(tirPerfsSaved.get(0).getScenario().getApplicatif(), applicatif1);
+        assertNotEquals(tirPerfsSaved.get(0).getScenario().getApplicatif(), applicatif2);
+
+
+        // case 2: where an applicatif has more than 1 tirPerf, same applicatif but different scenarios
+
+        // Given
+
+        Applicatif applicatif3 = new Applicatif("Test Applicatif3");
+        Applicatif savedApplicatif3 = applicatifRepository.createApplicatif(applicatif3);
+
+        Scenario scenario3 = new Scenario();
+        scenario3.setApplicatif(savedApplicatif3);
+        Scenario savedScenario3 = scenarioRepository.create(scenario3);
+
+        Scenario scenario4 = new Scenario();
+        scenario4.setApplicatif(savedApplicatif3);
+        Scenario savedScenario4 = scenarioRepository.create(scenario4);
+
+        TirPerf tirPerf3 = new TirPerf();
+        tirPerf3.setScenario(savedScenario3);
+        TirPerf savedTirPerf3 = tirPerfRepository.create(tirPerf3);
+
+        TirPerf tirPerf4 = new TirPerf();
+        tirPerf4.setScenario(savedScenario4);
+        TirPerf savedTirPerf4 = tirPerfRepository.create(tirPerf4);
+
+        List<TirPerf> ListOfTirPerfs = List.of(savedTirPerf3, savedTirPerf4);
+
+        // When
+
+        List<TirPerf> ListOfDBTirPerfs = applicatifRepository.getAllTirPerfs(applicatif3);
+
+        // Then
+
+        assertEquals(ListOfDBTirPerfs.size(), ListOfTirPerfs.size());
+        ListOfDBTirPerfs.forEach(tirPerf -> {
+            assertTrue(ListOfDBTirPerfs.contains(tirPerf));
+        });
+
     }
-
-    assertTrue(found);
-    }
-
-
 }
