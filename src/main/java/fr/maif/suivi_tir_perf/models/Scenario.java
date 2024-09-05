@@ -32,6 +32,12 @@ Scenario {
 
     public Scenario() {}
 
+    public Scenario(String description, Applicatif applicatif, List<Fonction> fonctions) {
+        this.description = description;
+        this.applicatif = applicatif;
+        this.fonctions = fonctions;
+    }
+
     public Integer getId() {
         return id;
     }

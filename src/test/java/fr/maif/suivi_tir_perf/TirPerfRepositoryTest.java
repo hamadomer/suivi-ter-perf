@@ -1,5 +1,6 @@
 package fr.maif.suivi_tir_perf;
 
+import fr.maif.suivi_tir_perf.models.Scenario;
 import fr.maif.suivi_tir_perf.models.TirPerf;
 import fr.maif.suivi_tir_perf.repositories.Impl.TirPerfRepositoryImpl;
 import fr.maif.suivi_tir_perf.repositories.TirPerfRepository;
@@ -97,4 +98,5 @@ public class TirPerfRepositoryTest {
             assertTrue(tirperfsExpected.contains(tirPerf));
         });
     }
+
 }
